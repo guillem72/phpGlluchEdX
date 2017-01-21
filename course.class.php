@@ -7,9 +7,12 @@ class Course {
 
 public static $log_file="course.log";
 public $debug=true;
-public $no_xpath=array("requirements","length");
+
 public $file_target=false;
 public $processed=false;
+
+public $no_xpath=array("requirements","length");
+
 protected $params=array("description","contents","instructors","requirements", "length","effort","prices","institutions","subjects","language","url","title","keywords");
 
 public $quitar=array
@@ -89,6 +92,7 @@ public function save($destination=false)
 	if (!$destination AND !$this->file_target)
 		return false; //TODO warning
 	if ($destination) $this->file_target=$destination;
+	
 	file_put_contents($this->file_target,json_encode($this->processed, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));	
 }
 
@@ -99,12 +103,11 @@ public function get_info_course()
 	$val=false;
 	foreach ($this->params as $param)
 	{
-		echo "\nparam=".$param."\t";
+		//echo "\nparam=".$param."\t";
 		if (in_array($param,$this->no_xpath))
 		$val=$this->get_part_noxpath($param);
-		
 		else $val=$this->get_part($param,$this->doc);
-		var_dump($val);
+		//var_dump($val);
 		if ($val) 
 		{
 			$devolver[$param]=$val;
